@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+set -eu
 # this script sets up a fresh CentOS 7 installation with an ODS installation based on an OpenShift cluster started with oc cluster up
 
 # Check whether VM is setup correctly
@@ -11,7 +11,7 @@ fi
 free -m
 df -h
 
-sudo yum install docker
+sudo yum install -y docker
 sudo systemctl enable --now docker
 
 cat << EOF >/etc/docker/daemon.json
@@ -23,7 +23,6 @@ cat << EOF >/etc/docker/daemon.json
 EOF
 
 sudo systemctl restart docker.service
-firewall-cmd --permanent --new-zone dockerc
 sudo firewall-cmd --permanent --new-zone dockerc
 sudo firewall-cmd --permanent --zone dockerc --add-source 172.17.0.0/16
 sudo firewall-cmd --permanent --zone dockerc --add-port 8443/tcp
@@ -31,8 +30,8 @@ sudo firewall-cmd --permanent --zone dockerc --add-port 53/udp
 sudo firewall-cmd --permanent --zone dockerc --add-port 8053/udp
 sudo firewall-cmd --reload
 
-sudo yum install centos-release-openshift-origin311
-sudo yum -y install origin-clients
+sudo yum install -y centos-release-openshift-origin311
+sudo yum install -y origin-clients
 sudo -i
 sudo oc cluster up
 oc login -u developer
