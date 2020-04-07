@@ -23,9 +23,9 @@ cat <<EOF |
 }
 EOF
 sudo tee /etc/docker/daemon.json
+sudo systemctl restart docker.service
 
 echo "Configuring firewall for docker containers:"
-sudo systemctl restart docker.service
 sudo firewall-cmd --permanent --new-zone dockerc
 sudo firewall-cmd --permanent --zone dockerc --add-source 172.17.0.0/16
 sudo firewall-cmd --permanent --zone dockerc --add-port 8443/tcp
@@ -37,10 +37,9 @@ echo "Installing OpenShift client"
 sudo yum install -y centos-release-openshift-origin311
 sudo yum install -y origin-clients
 echo "Starting up oc cluster for the first time"
-sudo -i
-oc cluster up
+sudo oc cluster up --base-dir=${HOME}/openshift.local.clusterup
 oc login -u developer
-oc login -u system:admin
+sudo oc login -u system:admin
 oc projects
 
 
