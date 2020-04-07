@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+# this script sets up a fresh CentOS 7 installation with an ODS installation based on an OpenShift cluster started with oc cluster up
+
+# Check whether VM is setup correctly
+if [[ -z $(grep vmx /proc/cpuinfo) ]]; then
+    echo "The VM needs to be configured to enable hypervisor applications. Stopping now."
+    exit 1
+fi
+# debug log available memory and diskspace
+free -m
+df -h
+
+sudo yum install docker
+sudo systemctl enable --now docker
+
+cat << EOF >/etc/docker/daemon.json
+{
+    "insecure-registries": [
+        "172.30.0.0/16"
+    ]
+}
+EOF
+
+sudo systemctl restart docker.service
+firewall-cmd --permanent --new-zone dockerc
+sudo firewall-cmd --permanent --new-zone dockerc
+sudo firewall-cmd --permanent --zone dockerc --add-source 172.17.0.0/16
+sudo firewall-cmd --permanent --zone dockerc --add-port 8443/tcp
+sudo firewall-cmd --permanent --zone dockerc --add-port 53/udp
+sudo firewall-cmd --permanent --zone dockerc --add-port 8053/udp
+sudo firewall-cmd --reload
+
+sudo yum install centos-release-openshift-origin311
+sudo yum -y install origin-clients
+sudo -i
+sudo oc cluster up
+oc login -u developer
+oc login -u system:admin
+oc projects
+
+
