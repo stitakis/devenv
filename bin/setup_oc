@@ -14,15 +14,17 @@ df -h
 sudo yum install -y docker
 sudo systemctl enable --now docker
 
-sudo bash -c 'cat << EOF >/etc/docker/daemon.json
+echo "updating docker insecure registries"
+cat <<EOF |
 {
     "insecure-registries": [
         "172.30.0.0/16"
     ]
 }
-EOF'
+EOF
+sudo tee /etc/docker/daemon.json
 
-echo "Configuring firewall for docker containers:
+echo "Configuring firewall for docker containers:"
 sudo systemctl restart docker.service
 sudo firewall-cmd --permanent --new-zone dockerc
 sudo firewall-cmd --permanent --zone dockerc --add-source 172.17.0.0/16
