@@ -11,13 +11,16 @@ fi
 free -m
 df -h
 
+sudo yum -y install git
+sudo yum -y install tree
 sudo yum install -y docker
 sudo systemctl enable --now docker
 
 echo "updating docker insecure registries"
 cat <<EOF |
 {
-    "insecure-registries": [
+    "bip": "172.17.0.1/16",
+     "insecure-registries": [
         "172.30.0.0/16"
     ]
 }
@@ -36,10 +39,49 @@ sudo firewall-cmd --reload
 echo "Installing OpenShift client"
 sudo yum install -y centos-release-openshift-origin311
 sudo yum install -y origin-clients
+source /etc/bash_completion.d/oc
+
 echo "Starting up oc cluster for the first time"
-sudo oc cluster up --base-dir=${HOME}/openshift.local.clusterup
+# ip_address=192.168.188.96
+ip_address=172.17.0.1
+sudo oc cluster up --base-dir=${HOME}/openshift.local.clusterup --routing-suffix ${ip_address}.nip.io --public-hostname ${ip_address} --no-proxy=${ip_address}
 oc login -u developer
 sudo oc login -u system:admin
 oc projects
 
+# TODO create a test project to verify cluster works, remove after development phase
+oc -o yaml new-app php~https://github.com/sandervanvugt/simpleapp --name=simpleapp > s2i.yaml
+oc create -f s2i.yaml
+
+# setup ods project
+if ! oc whoami; then
+  echo "You should be logged into the OpenShift cluster to run the script"
+  exit 1
+fi
+
+TAILOR="tailor"
+NAMESPACE="cd"
+
+# Create namespace
+if oc project ${NAMESPACE}; then
+  echo "The project '${NAMESPACE}' already exists"
+else
+  echo "Creating project '${NAMESPACE}' ..."
+  oc new-project ${NAMESPACE} --description="Central ODS namespace with shared resources" --display-name="OpenDevStack"
+fi
+
+# Allow system:authenticated group to pull images from CD namespace
+oc adm policy add-cluster-role-to-group system:image-puller system:authenticated -n ${NAMESPACE}
+oc adm policy add-role-to-group view system:authenticated -n ${NAMESPACE}
+
+# Create  global cd_user secret
+${TAILOR} update ${FORCE} --context-dir=${BASH_SOURCE%/*}/ocp-config/cd-user --non-interactive
+
+echo "Finished the script"
+return 0
+
+mkdir -p ods-config
+git clone https://github.com/opendevstack/ods-core.git
+cd ods-core
+tests/scripts/recreate-test-infrastructure.sh
 
