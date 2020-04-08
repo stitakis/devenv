@@ -53,7 +53,14 @@ oc projects
 oc -o yaml new-app php~https://github.com/sandervanvugt/simpleapp --name=simpleapp > s2i.yaml
 oc create -f s2i.yaml
 
-# setup ods project
+echo "Create test infrastructure"
+URL=$(oc config view --minify -o jsonpath='{.clusters[*].cluster.server}')
+if [ ${URL} != "https://172.17.0.1:8443" ]; then
+    echo "You are not in a local cluster. Stopping now!!!"
+    exit 1
+fi
+
+echo "Setup ods project"
 if ! oc whoami; then
   echo "You should be logged into the OpenShift cluster to run the script"
   exit 1
