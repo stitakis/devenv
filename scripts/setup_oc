@@ -11,8 +11,7 @@ fi
 free -m
 df -h
 
-sudo yum -y install git
-sudo yum -y install tree
+sudo yum -y install git golang tree
 sudo yum install -y docker
 sudo systemctl enable --now docker
 
@@ -50,8 +49,20 @@ sudo oc login -u system:admin
 oc projects
 
 # TODO create a test project to verify cluster works, remove after development phase
+echo "Create a simple test project to smoke test OpenShift cluster"
 oc -o yaml new-app php~https://github.com/sandervanvugt/simpleapp --name=simpleapp > s2i.yaml
 oc create -f s2i.yaml
+
+echo "Download tailor"
+curl -LO "https://github.com/opendevstack/tailor/releases/download/v0.13.1/tailor-linux-amd64"
+chmod +x tailor-linux-amd64
+sudo mv tailor-linux-amd64 /usr/bin/tailor
+echo "tailor version: $(tailor version)"
+echo "oc version: $(oc version)"
+echo "jq version: $(jq --version)"
+echo "go version: $(go version)"
+echo "docker version: $(docker --version)"
+echo "network interfaces: $(ip a)"
 
 echo "Create test infrastructure"
 URL=$(oc config view --minify -o jsonpath='{.clusters[*].cluster.server}')
@@ -69,7 +80,7 @@ fi
 TAILOR="tailor"
 NAMESPACE="cd"
 
-# Create namespace
+# In OpenShift create namespace "cd"s
 if oc project ${NAMESPACE}; then
   echo "The project '${NAMESPACE}' already exists"
 else
