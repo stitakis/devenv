@@ -12,7 +12,10 @@ free -m
 df -h
 
 sudo yum -y install git golang tree
-sudo yum install -y docker
+# install docker
+sudo yum install -y yum-utils
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum -y install docker-ce docker-ce-cli containerd.io
 sudo systemctl enable --now docker
 
 echo "updating docker insecure registries"
@@ -26,6 +29,11 @@ cat <<EOF |
 EOF
 sudo tee /etc/docker/daemon.json
 sudo systemctl restart docker.service
+sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+sudo curl -L https://raw.githubusercontent.com/docker/compose/1.25.5/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
+source /etc/bash_completion.d/docker-compose
 
 echo "Configuring firewall for docker containers:"
 sudo firewall-cmd --permanent --new-zone dockerc
@@ -67,8 +75,8 @@ echo "network interfaces: $(ip a)"
 
 echo "Create test infrastructure"
 
-git clone https://github.com/opendevstack/ods-core.git
-cd ods-core
-git checkout fix/repository-param
-tests/scripts/recreate-test-infrastructure.sh
+# git clone https://github.com/opendevstack/ods-core.git
+# cd ods-core
+# git checkout fix/repository-param
+./recreate-test-infrastructure.sh
 
