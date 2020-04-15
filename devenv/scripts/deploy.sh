@@ -39,10 +39,12 @@ sudo tee /etc/docker/daemon.json
 sudo systemctl restart docker.service
 sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
-sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+if [[ ! -f /usr/bin/docker ]]; then
+    sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+fi
 sudo curl -L https://raw.githubusercontent.com/docker/compose/1.25.5/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
-sleep 1
-source /etc/bash_completion.d/docker-compose
+# you can run this statement in your session to get docker-compose bash completion. Will be available in a new session anyway.
+# source /etc/bash_completion.d/docker-compose
 
 echo "Configuring firewall for docker containers:"
 sudo firewall-cmd --permanent --new-zone dockerc
