@@ -15,7 +15,7 @@ services:
       - DB_NAME=gitea
       - DB_USER=gitea
       - DB_PASSWD=gitea
-      - HTTP_PORT=7070
+      - HTTP_PORT=8080
     restart: always
     networks:
       - gitea
@@ -24,7 +24,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     ports:
-       - "7070:7070"
+       - "8080:8080"
        - "222:22"
     depends_on:
       - db

@@ -34,7 +34,7 @@ if oc project ${NAMSPACE}; then
     oc delete project ${NAMSPACE}
 fi
 
-${BASH_SOURCE%/*}/deploy-mocks.sh  --verbose --wait
+${BASH_SOURCE%/*}/deploy-gitea.sh  --verbose --wait
 ${BASH_SOURCE%/*}/setup-mocked-ods-repo.sh --ods-ref ${REF} --verbose
 
 ${BASH_SOURCE%/*}/../../ods-setup/setup-ods-project.sh --verbose --non-interactive
@@ -54,12 +54,12 @@ if oc project "${PROJECT_ID}-cd" > /dev/null; then
 fi
 
 PROJECT_ID=${PROJECT_ID} \
-    ${BASH_SOURCE%/*}/../../create-projects/create-projects.sh  --verbose
+    ${BASH_SOURCE%/*}/create-projects.sh  --verbose
 
 PROJECT_ID=${PROJECT_ID} \
 CD_USER_TYPE=general \
 CD_USER_ID_B64=${CD_USER_ID_B64} \
 PIPELINE_TRIGGER_SECRET=${PIPELINE_TRIGGER_SECRET_B64} \
-    ${BASH_SOURCE%/*}/../../create-projects/create-cd-jenkins.sh --ods-namespace ${NAMSPACE} --force --verbose
+    ${BASH_SOURCE%/*}/create-projects/create-cd-jenkins.sh --ods-namespace ${NAMSPACE} --force --verbose
 
 oc adm policy add-cluster-role-to-user self-provisioner system:serviceaccount:prov-cd:jenkins

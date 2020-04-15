@@ -13,3 +13,6 @@ source ${BASH_SOURCE%/*}/../../ods-config/ods-core.env
 cd docker/gitea
 docker-compose up -d
 cd -
+# TODO retrieve username / password from environment variables here and in docker-compose.yml
+docker container exec gitea_server_1 bash -c "gitea migrate"
+docker container exec gitea_server_1 bash -c "gitea admin create-user --username cd_user --password cd_passworD1 --email cd_user@example.com --admin"

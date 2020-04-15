@@ -5,7 +5,7 @@ function usage {
    printf "usage: %s [options]\n", $0
    printf "\t-h|--help\tPrints the usage\n"
    printf "\t-v|--verbose\tVerbose output\n"
-   printf "\t-b|--ods-ref\tReference to be created in the mocked git repo.\n"
+   printf "\t-b|--ods-ref\tReference to be created in the git repo.\n"
 
 }
 
@@ -44,8 +44,8 @@ while [[ "$#" -gt 0 ]]; do case $1 in
    *) echo "Unknown parameter passed: $1"; usage; exit 1;;
  esac; shift; done
 
-if git remote -v | grep mockbucket; then
-    git remote remove mockbucket
+if git remote -v | grep gitea; then
+    git remote remove gitea
 fi
 
 
@@ -56,7 +56,7 @@ fi
 
 source ${BASH_SOURCE%/*}/../../ods-config/ods-core.env
 
-docker ps | grep mockbucket
+docker ps | grep gitea
 
 # git checkout -b "${REF}"
 HEAD=$(git rev-parse --abbrev-ref HEAD)
@@ -64,9 +64,9 @@ if [ "${HEAD}" = "HEAD" ]; then
     HEAD="cicdtests"
     git checkout -b ${HEAD}
 fi
-git remote add mockbucket "http://$(urlencode ${CD_USER_ID}):$(urlencode ${CD_USER_PWD})@${BITBUCKET_HOST}/scm/opendevstack/ods-core.git"
-git -c http.sslVerify=false push mockbucket --set-upstream "${HEAD}:${REF}"
-git remote remove mockbucket
+git remote add gitea "http://$(urlencode ${CD_USER_ID}):$(urlencode ${CD_USER_PWD})@${BITBUCKET_HOST}/scm/opendevstack/ods-core.git"
+git -c http.sslVerify=false push gitea --set-upstream "${HEAD}:${REF}"
+git remote remove gitea
 
 mkdir -p "${BASH_SOURCE%/*}/../../../ods-configuration"
 cp ${BASH_SOURCE%/*}/../../ods-config/ods-core.env ${BASH_SOURCE%/*}/../../../ods-configuration
@@ -77,6 +77,6 @@ git config user.email "test@suite.nip.io"
 git config user.name "Test Suite"
 git add ods-core.env
 git commit -m "Initial Commit"
-git remote add mockbucket "http://$(urlencode ${CD_USER_ID}):$(urlencode ${CD_USER_PWD})@${BITBUCKET_HOST}/scm/opendevstack/ods-configuration.git"
-git -c http.sslVerify=false push mockbucket --set-upstream "$(git rev-parse --abbrev-ref HEAD):${REF}"
+git remote add gitea "http://$(urlencode ${CD_USER_ID}):$(urlencode ${CD_USER_PWD})@${BITBUCKET_HOST}/scm/opendevstack/ods-configuration.git"
+git -c http.sslVerify=false push gitea --set-upstream "$(git rev-parse --abbrev-ref HEAD):${REF}"
 cd -

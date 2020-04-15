@@ -137,7 +137,7 @@ REPO_BASE=http://${BITBUCKET_HOST}/scm
 CD_USER_ID=cd_user
 CD_USER_ID_B64=$(echo -n "${CD_USER_ID}" | base64)
 # CD_USER_PWD=$(dd if=/dev/urandom bs=1 count=32 2>/dev/null | base64  | rev | cut -b 2- | rev | tr -cd '[:alnum:]')
-CD_USER_PWD=cd_password
+CD_USER_PWD=cd_passworD1
 CD_USER_PWD_B64=$(echo -n "${CD_USER_PWD}" | base64)
 
 echo "BITBUCKET_HOST=${BITBUCKET_HOST}" >> ${OUTPUT}
