@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -ex
 
+echo "########## running create-project.sh"
+
 # check required parameters
 if [ -z ${PROJECT_ID+x} ]; then
     echo "PROJECT_ID is unset";
@@ -86,3 +88,4 @@ else
 	oc policy add-role-to-group view system:authenticated -n $PROJECT_ID-cd
 fi
 
+echo "########## finished create-env-from-local-cluster.sh"

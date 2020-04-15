@@ -2,6 +2,8 @@
 
 #Builds all jenkins-master jenkins-slave-base and webhook-proxy
 
+echo "########## running setup-jenkins-images.sh"
+
 set -ue
 
 function usage {
@@ -71,3 +73,5 @@ ${BASH_SOURCE%/*}/start-and-follow-build.sh --build-config jenkins-master
 ${BASH_SOURCE%/*}/start-and-follow-build.sh --build-config jenkins-slave-base
 
 ${BASH_SOURCE%/*}/start-and-follow-build.sh --build-config jenkins-webhook-proxy
+
+echo "########## finished setup-jenkins-images.sh"

@@ -2,6 +2,8 @@
 # Start build of given image and follows the output.
 # After build finishes, we verify status is "Complete".
 
+echo "########## running start-and-follow-build.sh"
+
 set -ue
 
 function usage {
@@ -53,3 +55,5 @@ for i in 1 2 3; do
 done
 echo "Please, check build ${BUILD_ID} since it seems failed/not completed."
 exit 1
+
+echo "########## finished start-and-follow-build.sh"

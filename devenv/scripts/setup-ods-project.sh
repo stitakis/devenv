@@ -2,6 +2,8 @@
 
 # Create the namespace for holding all ODS resources
 
+echo "########## running setup-ods-project.sh"
+
 set -ue
 
 function usage {
@@ -51,3 +53,5 @@ oc adm policy add-role-to-group view system:authenticated -n ${NAMESPACE}
 cd ${BASH_SOURCE%/*}/ocp-config/cd-user
 ${TAILOR} -n ${NAMESPACE} apply ${NON_INTERACTIVE}
 cd -
+
+echo "########## finished setup-ods-project.sh"

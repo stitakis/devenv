@@ -2,6 +2,8 @@
 set -eux
 # this script sets up a fresh CentOS 7 installation with an ODS installation based on an OpenShift cluster started with oc cluster up
 
+echo "########## running deploy.sh"
+
 # Check whether VM is setup correctly
 if [[ -z $(grep vmx /proc/cpuinfo) ]]; then
     echo "The VM needs to be configured to enable hypervisor applications. Stopping now."
@@ -80,3 +82,4 @@ echo "Create test infrastructure"
 # git checkout fix/repository-param
 ./recreate-test-infrastructure.sh
 
+echo "########## finished deploy.sh"

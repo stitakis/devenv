@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -uex
 
+echo "########## running create-env-from-local-cluster.sh"
+
 BASE_OC_DIR="${HOME}/openshift.local.clusterup"
 
 function usage() {
@@ -199,3 +201,5 @@ echo "" >> ${OUTPUT}
 echo "STORAGE_PROVISIONER=" >> ${OUTPUT}
 echo "STORAGE_CLASS_DATA=" >> ${OUTPUT}
 echo "STORAGE_CLASS_BACKUP=" >> ${OUTPUT}
+
+echo "########## finished create-env-from-local-cluster.sh"

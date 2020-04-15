@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -eu
 
+echo "########## running create-cd-jenkins.sh"
+
 # This script sets up the cd/jenkins-master and the associated webhook proxy.
 
 # support pointing to patched tailor using TAILOR environment variable
@@ -90,3 +92,5 @@ tailor_update_in_dir "${SCRIPT_DIR}/ocp-config/cd-jenkins" \
   "--param=NAMESPACE=${ODS_NAMESPACE}" \
   $cdUserPwdParam \
   --selector "template=cd-jenkins-template"
+
+echo "########## finished create-cd-jenkins.sh"

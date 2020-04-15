@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -uxe
-
+echo "########## running recreate-test-infrastrucure.sh"
 
 URL=$(oc config view --minify -o jsonpath='{.clusters[*].cluster.server}')
 
@@ -63,3 +63,5 @@ PIPELINE_TRIGGER_SECRET=${PIPELINE_TRIGGER_SECRET_B64} \
     ${BASH_SOURCE%/*}/create-projects/create-cd-jenkins.sh --ods-namespace ${NAMSPACE} --force --verbose
 
 oc adm policy add-cluster-role-to-user self-provisioner system:serviceaccount:prov-cd:jenkins
+
+echo "########## finished recreate-test-infrastrucure.sh"

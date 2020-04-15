@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -eu
 
+echo "########## running setup-mocked-ods-repo.sh"
+
 function usage {
    printf "usage: %s [options]\n", $0
    printf "\t-h|--help\tPrints the usage\n"
@@ -80,3 +82,5 @@ git commit -m "Initial Commit"
 git remote add gitea "http://$(urlencode ${CD_USER_ID}):$(urlencode ${CD_USER_PWD})@${BITBUCKET_HOST}/scm/opendevstack/ods-configuration.git"
 git -c http.sslVerify=false push gitea --set-upstream "$(git rev-parse --abbrev-ref HEAD):${REF}"
 cd -
+
+echo "########## finished setup-mocked-ods-repo.sh"
