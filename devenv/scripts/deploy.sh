@@ -24,7 +24,13 @@ echo "updating docker insecure registries"
 cat <<EOF |
 {
     "bip": "172.17.0.1/16",
-     "insecure-registries": [
+    "default-address-pools": [
+        {
+            "base": "172.17.0.0/16",
+            "size": 16
+        }
+    ],
+    "insecure-registries": [
         "172.30.0.0/16"
     ]
 }
