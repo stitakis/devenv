@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -exu
+
 echo "running init.sh"
 
 mkdir -p $HOME/projects
