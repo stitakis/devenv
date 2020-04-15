@@ -86,9 +86,6 @@ echo "network interfaces: $(ip a)"
 
 echo "Create test infrastructure"
 
-# git clone https://github.com/opendevstack/ods-core.git
-# cd ods-core
-# git checkout fix/repository-param
-./recreate-test-infrastructure.sh
+${BASH_SOURCE%/*}/recreate-test-infrastructure.sh
 
 echo "########## finished deploy.sh"
