@@ -17,6 +17,7 @@ docker-compose up -d
 cd -
 
 # wait for gitea container to come up
+sleep 25
 counter=0
 while ! ps -ef | grep "gitea web" | grep -v grep; do sleep 1; counter=$((counter + 1)); done
 echo "Waited for ${counter}s for gitea to come up..."
