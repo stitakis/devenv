@@ -80,8 +80,11 @@ git remote add gitea ${gitea_url}
 git -c http.sslVerify=false push gitea --set-upstream "${HEAD}:${REF}"
 git remote remove gitea
 
-
+cd $current_pwd
 mkdir -p "${BASH_SOURCE%/*}/../../../ods-configuration"
+echo "pwd is $(pwd)"
+echo "path to ods-core.env shoud be ${BASH_SOURCE%/*}/../../ods-config/ods-core.env"
+echo "ls that file: $(ls -lisah ${BASH_SOURCE%/*}/../../ods-config/ods-core.env)"
 cp ${BASH_SOURCE%/*}/../../ods-config/ods-core.env ${BASH_SOURCE%/*}/../../../ods-configuration
 
 cd "${BASH_SOURCE%/*}/../../../ods-configuration"

@@ -37,9 +37,9 @@ fi
 ${BASH_SOURCE%/*}/deploy-gitea.sh  --verbose --wait
 ${BASH_SOURCE%/*}/setup-mocked-ods-repo.sh --ods-ref ${REF} --verbose
 
-${BASH_SOURCE%/*}/../../ods-setup/setup-ods-project.sh --verbose --non-interactive
+${BASH_SOURCE%/*}/setup-ods-project.sh --verbose --non-interactive
 
-${BASH_SOURCE%/*}/../../ods-setup/setup-jenkins-images.sh --verbose --non-interactive --ods-ref ${REF}
+${BASH_SOURCE%/*}/setup-jenkins-images.sh --verbose --non-interactive --ods-ref ${REF}
 
 source ${BASH_SOURCE%/*}/../../ods-config/ods-core.env
 PROJECT_ID=prov
