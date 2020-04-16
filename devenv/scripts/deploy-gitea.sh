@@ -17,23 +17,22 @@ docker container run -d --rm --name db \
     -e MYSQL_USER=gitea \
     -e MYSQL_PASSWORD=gitea \
     -e MYSQL_DATABASE=gitea \
-    --network host \
     --volume /root/mysql_data/:/var/lib/mysql \
     mysql:5.7
 
 docker container run -d --rm --name gitea \
-	-e DB_TYPE=mysql \
-	-e DB_HOST=db:3306 \
-	-e DB_NAME=gitea \
-	-e DB_USER=gitea \
-	-e DB_PASSWD=gitea \
-	-e HTTP_PORT=8080 \
-	-e SSH_PORT=222 \
-	--network host \
-	--volume /root/gitea_data:/data \
-	--volume /etc/timezone:/etc/timezone:ro \
-	--volume /etc/localtime:/etc/localtime:ro \
-	gitea/gitea:latest
+    -e DB_TYPE=mysql \
+    -e DB_HOST=db:3306 \
+    -e DB_NAME=gitea \
+    -e DB_USER=gitea \
+    -e DB_PASSWD=gitea \
+    -e HTTP_PORT=8080 \
+    -e SSH_PORT=222 \
+    -p 8080:8080 \
+    --volume /root/gitea_data:/data \
+    --volume /etc/timezone:/etc/timezone:ro \
+    --volume /etc/localtime:/etc/localtime:ro \
+    gitea/gitea:latest
 
 echo "Waiting for gitea container to come online."
 sleep 25
@@ -42,8 +41,8 @@ while ! ps -ef | grep "gitea web" | grep -v grep; do sleep 1; counter=$((counter
 echo "Waited for ${counter}s for gitea to come up..."
 
 # TODO retrieve username / password from environment variables here and in docker-compose.yml
-docker container exec gitea_server_1 bash -c "gitea migrate"
-docker container exec gitea_server_1 bash -c "gitea admin create-user --username cd_user --password cd_passworD1 --email cd_user@example.com --admin"
+docker container exec gitea bash -c "gitea migrate"
+docker container exec gitea bash -c "gitea admin create-user --username cd_user --password cd_passworD1 --email cd_user@example.com --admin"
 
 # create test repositories
 gitea_url=172.17.0.1:8080
