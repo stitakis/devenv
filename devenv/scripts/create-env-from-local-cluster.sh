@@ -134,7 +134,7 @@ echo "#####-#####-#####-#####-#####" >> ${OUTPUT}
 echo "" >> ${OUTPUT}
 
 BITBUCKET_HOST=172.17.0.1:8080
-REPO_BASE=http://${BITBUCKET_HOST}/scm
+REPO_BASE=http://${BITBUCKET_HOST}/cd_user
 
 CD_USER_ID=cd_user
 CD_USER_ID_B64=$(echo -n "${CD_USER_ID}" | base64)
