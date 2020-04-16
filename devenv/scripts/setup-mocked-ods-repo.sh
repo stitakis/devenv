@@ -68,7 +68,7 @@ if [ "${HEAD}" = "HEAD" ]; then
 fi
 
 current_pwd=$(pwd)
-gitea_url="http://$(urlencode ${CD_USER_ID}):$(urlencode ${CD_USER_PWD})@${BITBUCKET_HOST}/$(urlencode ${CD_USER_PWD})/ods-core.git"
+gitea_url="http://$(urlencode ${CD_USER_ID}):$(urlencode ${CD_USER_PWD})@${BITBUCKET_HOST}/$(urlencode ${CD_USER_ID})/ods-core.git"
 echo "gitea URL for ods-core is ${gitea_url}"
 ods_core_base_path=${HOME}/projects/
 mkdir -p ${ods_core_base_path}
@@ -90,7 +90,7 @@ git config user.email "test@suite.nip.io"
 git config user.name "Test Suite"
 git add ods-core.env
 git commit -m "Initial Commit"
-git remote add gitea "http://$(urlencode ${CD_USER_ID}):$(urlencode ${CD_USER_PWD})@${BITBUCKET_HOST}/$(urlencode ${CD_USER_PWD})/ods-configuration.git"
+git remote add gitea "http://$(urlencode ${CD_USER_ID}):$(urlencode ${CD_USER_PWD})@${BITBUCKET_HOST}/$(urlencode ${CD_USER_ID})/ods-configuration.git"
 git -c http.sslVerify=false push gitea --set-upstream "$(git rev-parse --abbrev-ref HEAD):${REF}"
 cd $current_pwd
 
