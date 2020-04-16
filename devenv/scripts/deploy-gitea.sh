@@ -3,7 +3,7 @@
 
 echo "########## running deploy-gitea.sh"
 
-set -eu
+set -exu
 
 URL=$(oc config view --minify -o jsonpath='{.clusters[*].cluster.server}')
 if [ ${URL} != "https://172.17.0.1:8443" ]; then
@@ -25,7 +25,9 @@ echo "Waited for ${counter}s for gitea to come up..."
 # TODO retrieve username / password from environment variables here and in docker-compose.yml
 docker container exec gitea_server_1 bash -c "gitea migrate"
 docker container exec gitea_server_1 bash -c "gitea admin create-user --username cd_user --password cd_passworD1 --email cd_user@example.com --admin"
+
 # create test repositories
+read -n1 -r -p "Now, log into gitea under https://localhost:8080 using credentials cd_user:cd_passworD1 and press SPACE when done."
 curl -X POST "http://cd_user:cd_passworD1@localhost:8080/api/v1/user/repos" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"auto_init\": true, \"default_branch\": \"master\", \"description\": \"test setup for gitea\", \"name\": \"ods-core\", \"private\": false}" | jq .
 curl -X POST "http://cd_user:cd_passworD1@localhost:8080/api/v1/user/repos" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"auto_init\": true, \"default_branch\": \"master\", \"description\": \"test setup for gitea\", \"name\": \"ods-configuration\", \"private\": false}" | jq .
 curl -X GET "http://localhost:8080/api/v1/repos/search" -H "accept: application/json" |  jq .
