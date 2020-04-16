@@ -13,9 +13,9 @@ fi
 free -m
 df -h
 
-sudo yum -y install git golang tree
 # install docker
-sudo yum install -y yum-utils
+sudo yum install -y yum-utils epel-release
+sudo yum -y install git golang jq tree
 sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 sudo yum -y install docker-ce docker-ce-cli containerd.io
 sudo systemctl enable --now docker
