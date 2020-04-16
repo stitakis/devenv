@@ -64,7 +64,7 @@ else
   REPOSITORY_PARAM=
 fi
 
-cd ${BASH_SOURCE%/*}/../jenkins/ocp-config
+cd ${BASH_SOURCE%/*}/jenkins/ocp-config
 ${TAILOR} -n ${NAMESPACE} apply ${NON_INTERACTIVE} ${REF_PARAM} ${REPOSITORY_PARAM}
 cd -
 
