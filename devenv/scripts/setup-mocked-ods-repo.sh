@@ -66,9 +66,20 @@ if [ "${HEAD}" = "HEAD" ]; then
     HEAD="cicdtests"
     git checkout -b ${HEAD}
 fi
-git remote add gitea "http://$(urlencode ${CD_USER_ID}):$(urlencode ${CD_USER_PWD})@${BITBUCKET_HOST}/scm/opendevstack/ods-core.git"
+
+current_pwd=$(pwd)
+gitea_url="http://$(urlencode ${CD_USER_ID}):$(urlencode ${CD_USER_PWD})@${BITBUCKET_HOST}/$(urlencode ${CD_USER_PWD})/ods-core.git"
+echo "gitea URL for ods-core is ${gitea_url}"
+ods_core_base_path=${HOME}/projects/
+mkdir -p ${ods_core_base_path}
+cd ${ods_core_base_path}
+git clone https://github.com/opendevstack/ods-core.git
+cd ods-core
+
+git remote add gitea ${gitea_url}
 git -c http.sslVerify=false push gitea --set-upstream "${HEAD}:${REF}"
 git remote remove gitea
+
 
 mkdir -p "${BASH_SOURCE%/*}/../../../ods-configuration"
 cp ${BASH_SOURCE%/*}/../../ods-config/ods-core.env ${BASH_SOURCE%/*}/../../../ods-configuration
@@ -79,8 +90,8 @@ git config user.email "test@suite.nip.io"
 git config user.name "Test Suite"
 git add ods-core.env
 git commit -m "Initial Commit"
-git remote add gitea "http://$(urlencode ${CD_USER_ID}):$(urlencode ${CD_USER_PWD})@${BITBUCKET_HOST}/scm/opendevstack/ods-configuration.git"
+git remote add gitea "http://$(urlencode ${CD_USER_ID}):$(urlencode ${CD_USER_PWD})@${BITBUCKET_HOST}/$(urlencode ${CD_USER_PWD})/ods-configuration.git"
 git -c http.sslVerify=false push gitea --set-upstream "$(git rev-parse --abbrev-ref HEAD):${REF}"
-cd -
+cd $current_pwd
 
 echo "########## finished setup-mocked-ods-repo.sh"
