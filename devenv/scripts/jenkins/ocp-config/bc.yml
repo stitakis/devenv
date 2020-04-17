@@ -20,7 +20,7 @@ objects:
       contextDir: jenkins/master
       git:
         ref: ${ODS_GIT_REF}
-        uri: ${REPO_BASE}/opendevstack/ods-core.git
+        uri: ${REPO_BASE}/ods-core.git
       sourceSecret:
         name: cd-user-token
     strategy:
@@ -68,7 +68,7 @@ objects:
       contextDir: jenkins/slave-base
       git:
         ref: ${ODS_GIT_REF}
-        uri: ${REPO_BASE}/opendevstack/ods-core.git
+        uri: ${REPO_BASE}/ods-core.git
       sourceSecret:
         name: cd-user-token
       type: Git
@@ -107,7 +107,7 @@ objects:
       contextDir: jenkins/webhook-proxy
       git:
         ref: ${ODS_GIT_REF}
-        uri: ${REPO_BASE}/opendevstack/ods-core.git
+        uri: ${REPO_BASE}/ods-core.git
       sourceSecret:
         name: cd-user-token
       type: Git
