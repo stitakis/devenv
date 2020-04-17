@@ -52,7 +52,7 @@ docker container exec gitea bash -c "gitea admin create-user --username cd_user 
 
 # create test repositories
 gitea_url=${gitea_ip}:8080
-sed -i "s|^REPO_BASE=http://172.17.0.1:8080/cd_user$|REPO_BASE=http://${gitea_url}/cd_user/simpleapp.git|" ${BASH_SOURCE%/*}/../../ods-config/ods-core.env
+sed -i "s|^REPO_BASE=http://172.17.0.1:8080/cd_user$|REPO_BASE=http://${gitea_url}/cd_user|" ${BASH_SOURCE%/*}/../../ods-config/ods-core.env
 read -n1 -r -p "Now, log into gitea under http://${gitea_url} using credentials cd_user:cd_passworD1 and press SPACE when done."
 curl -X POST "http://cd_user:cd_passworD1@${gitea_url}/api/v1/user/repos" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"auto_init\": true, \"default_branch\": \"master\", \"description\": \"test setup for gitea\", \"name\": \"ods-core\", \"private\": false}" | jq .
 curl -X POST "http://cd_user:cd_passworD1@${gitea_url}/api/v1/user/repos" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"auto_init\": true, \"default_branch\": \"master\", \"description\": \"test setup for gitea\", \"name\": \"ods-configuration\", \"private\": false}" | jq .
