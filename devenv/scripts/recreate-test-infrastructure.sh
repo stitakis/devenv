@@ -60,7 +60,7 @@ PROJECT_ID=${PROJECT_ID} \
 CD_USER_TYPE=general \
 CD_USER_ID_B64=${CD_USER_ID_B64} \
 PIPELINE_TRIGGER_SECRET=${PIPELINE_TRIGGER_SECRET_B64} \
-    ${BASH_SOURCE%/*}/create-projects/create-cd-jenkins.sh --ods-namespace ${NAMSPACE} --force --verbose
+    ${BASH_SOURCE%/*}/create-cd-jenkins.sh --ods-namespace ${NAMSPACE} --force --verbose
 
 oc adm policy add-cluster-role-to-user self-provisioner system:serviceaccount:prov-cd:jenkins
 

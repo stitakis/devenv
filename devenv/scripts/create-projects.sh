@@ -88,4 +88,4 @@ else
 	oc policy add-role-to-group view system:authenticated -n $PROJECT_ID-cd
 fi
 
-echo "########## finished create-env-from-local-cluster.sh"
+echo "########## finished create-project.sh"

@@ -13,9 +13,14 @@ fi
 free -m
 df -h
 
-# install docker
 sudo yum install -y yum-utils epel-release
-sudo yum -y install git golang jq tree
+sudo yum -y install firewalld git golang jq tree
+
+if ! systemctl status firewalld | grep -i running; then
+    systemctl start firewalld
+fi
+
+# install docker
 sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 sudo yum -y install docker-ce docker-ce-cli containerd.io
 sudo systemctl enable --now docker
@@ -67,6 +72,7 @@ sudo oc cluster up --base-dir=${HOME}/openshift.local.clusterup --routing-suffix
 oc login -u developer
 sudo oc login -u system:admin
 oc projects
+oc adm policy add-cluster-role-to-user cluster-admin developer
 
 # TODO create a test project to verify cluster works, remove after development phase
 echo "Create a simple test project to smoke test OpenShift cluster"
