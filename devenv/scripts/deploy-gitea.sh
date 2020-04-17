@@ -20,9 +20,11 @@ docker container run -d --rm --name db \
     --volume /root/mysql_data/:/var/lib/mysql \
     mysql:5.7
 
+mysql_ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' db)
+
 docker container run -d --rm --name gitea \
     -e DB_TYPE=mysql \
-    -e DB_HOST=db:3306 \
+    -e DB_HOST=${mysql_ip}:3306 \
     -e DB_NAME=gitea \
     -e DB_USER=gitea \
     -e DB_PASSWD=gitea \
