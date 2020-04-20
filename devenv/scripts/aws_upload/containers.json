@@ -1,0 +1,10 @@
+[
+    {
+      "Description": "First disk",
+      "Format": "vmdk",
+      "UserBucket": {
+          "S3Bucket": "bi-ods-dev-env",
+          "S3Key": "vmware_ova/ODS_CentOS7/ODS_CentOS7-disk1.vmdk"
+      }
+    }
+  ]
