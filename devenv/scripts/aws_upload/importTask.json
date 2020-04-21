@@ -1,0 +1,17 @@
+{
+    "Description": "ODS dev env",
+    "ImportTaskId": "import-ami-0f4a591cd2a187a99",
+    "Progress": "2",
+    "SnapshotDetails": [
+        {
+            "DiskImageSize": 0.0,
+            "Format": "VMDK",
+            "UserBucket": {
+                "S3Bucket": "bi-ods-dev-env",
+                "S3Key": "vmware_ova/ODS_CentOS7/ODS_CentOS7-disk1.vmdk"
+            }
+        }
+    ],
+    "Status": "active",
+    "StatusMessage": "pending"
+}
